@@ -6,18 +6,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Noto Sans JP', sans-serif; text-align: center; padding: 3rem; background: #f9f9f9; color: #333; }
-        a { display: inline-block; margin: 0.5rem; padding: 0.7rem 1.5rem; background: #fff; border-radius: 20px; text-decoration: none; color: #333; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        a:hover { background: #eaeaea; }
+        a { text-decoration: none; color: #333; }
+        .nav-links { list-style: none; display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .nav-links li a { font-size: 1rem; padding: 0.5rem 1rem; border-radius: 20px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: inline-block; }
+        .nav-links li a:hover, .nav-links li a.active { background: #eaeaea; }
     </style>
 </head>
 <body>
     <h1>Senya Maki</h1>
     <p>オリジナル作品集</p>
     <nav>
-        <a href="./tab1/">Tab 1</a>
-        <a href="./tab2/">Tab 2</a>
-        <!-- Khi thêm tab mới, bạn thêm link vào đây -->
+        <ul class="nav-links" id="dynamic-menu">
+            <!-- Menu sẽ được menu.js tự động điền -->
+        </ul>
     </nav>
     <p style="margin-top:2rem; font-size:0.8rem;">© 2026 Senya Maki</p>
+
+    <!-- Khai báo tab hiện tại (rỗng = trang chủ) -->
+    <script>var CURRENT_TAB = '';</script>
+    <!-- Nhúng menu động -->
+    <script src="./menu.js"></script>
 </body>
 </html>
