@@ -6,12 +6,16 @@
     <title>Senya Maki</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* Giữ nguyên CSS cũ của tab1 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Noto Sans JP', sans-serif; background: #f9f9f9; color: #333; line-height: 1.8; }
         a { text-decoration: none; color: #333; }
         .header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
-        .nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; }
+        .nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; flex-wrap: wrap; }
         .logo { font-size: 1.5rem; font-weight: 500; }
+        .nav-links { list-style: none; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .nav-links li a { font-size: 0.9rem; padding: 0.3rem 0.8rem; border-radius: 20px; }
+        .nav-links li a:hover, .nav-links li a.active { background: #eaeaea; }
         .main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
         .section-title { font-size: 1.6rem; font-weight: 500; margin-bottom: 1.5rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem; }
         .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
@@ -23,19 +27,14 @@
         .gallery-item .info .date { font-size: 0.8rem; color: #888; margin-bottom: 0.5rem; }
         .gallery-item a { display: inline-block; color: #0066c0; font-size: 0.8rem; }
         .footer { background: #fff; border-top: 1px solid #e0e0e0; text-align: center; padding: 2rem 1.5rem; margin-top: 3rem; font-size: 0.8rem; color: #999; }
-        .nav-links { list-style: none; display: flex; gap: 1.5rem; }
-        .nav-links li a { font-size: 0.9rem; }
     </style>
 </head>
 <body>
     <header class="header">
         <nav class="nav">
             <div class="logo">Senya Maki</div>
-            <ul class="nav-links">
-                <li><a href="../">ホーム</a></li>
-                <li><a href="../tab1/">Tab 1</a></li>
-                <li><a href="../tab2/">Tab 2</a></li>
-                <!-- Thêm các tab khác nếu muốn, hoặc có thể bỏ qua vì đã có trang chủ liệt kê -->
+            <ul class="nav-links" id="dynamic-menu">
+                <!-- Menu sẽ tự động điền -->
             </ul>
         </nav>
     </header>
@@ -45,9 +44,12 @@
     </main>
     <footer class="footer"><p>Senya Maki 公式サイト</p><p class="copyright">© 2026 Senya Maki</p></footer>
 
-    <!-- Khai báo tên thư mục cho gallery.js -->
+    <!-- Khai báo tên thư mục cho gallery -->
     <script>var TAB_FOLDER = 'tab2';</script>
-    <!-- Nhúng script chung -->
+    <!-- Khai báo tab hiện tại cho menu -->
+    <script>var CURRENT_TAB = 'tab2';</script>
+    <!-- Nhúng script load ảnh (nếu bạn dùng gallery.js riêng) và menu -->
     <script src="../gallery.js"></script>
+    <script src="../menu.js"></script>
 </body>
 </html>
