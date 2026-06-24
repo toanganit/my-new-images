@@ -2,8 +2,7 @@
 (async function buildMenu() {
     const REPO_OWNER = 'toanganit';    // ← ĐỔI NẾU CẦN
     const REPO_NAME = 'my-new-images';  // ← ĐỔI NẾU CẦN
-    const TOKEN = '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
-';    // ← DÁN TOKEN VÀO ĐÂY
+    const TOKEN = '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';    // ← DÁN TOKEN VÀO ĐÂY
 
     const ROOT_API = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/`;
 
