@@ -60,4 +60,7 @@
     } catch(e) {
         document.getElementById('gallery-container').innerHTML = '<p>画像を読み込めませんでした。</p>';
     }
+    const res = await fetch(GITHUB_API, {
+    headers: { Authorization: `token ${TOKEN}` }
+});
 })();
