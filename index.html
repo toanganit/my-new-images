@@ -2,172 +2,22 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Senya Maki 公式サイト</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Noto Sans JP', sans-serif; background: #f9f9f9; color: #333; }
-        a { text-decoration: none; color: #333; }
-        .header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
-        .nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; flex-wrap: wrap; }
-        .logo { font-size: 1.5rem; font-weight: 500; }
-        .nav-links { list-style: none; display: flex; gap: 1.5rem; flex-wrap: wrap; }
-        .nav-links li a { font-size: 0.9rem; cursor: pointer; padding: 0.3rem 0.8rem; border-radius: 20px; transition: background 0.2s; }
-        .nav-links li a:hover, .nav-links li a.active { background: #eaeaea; }
-        .main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
-        .section-title { font-size: 1.6rem; font-weight: 500; margin-bottom: 1.5rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem; }
-        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
-        .gallery-item { background: #fff; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); overflow: hidden; }
-        .gallery-item img { width: 100%; max-height: 400px; object-fit: contain; background: #f5f5f5; }
-        .gallery-item .info { padding: 1.2rem; }
-        .gallery-item .info h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
-        .gallery-item .info .desc { font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; }
-        .gallery-item .info .date { font-size: 0.8rem; color: #888; margin-bottom: 0.5rem; }
-        .gallery-item a { display: inline-block; color: #0066c0; font-size: 0.8rem; }
-        .footer { background: #fff; border-top: 1px solid #e0e0e0; text-align: center; padding: 2rem 1.5rem; margin-top: 3rem; font-size: 0.8rem; color: #999; }
-        #loading { text-align: center; padding: 2rem; }
+        body { font-family: 'Noto Sans JP', sans-serif; text-align: center; padding: 3rem; background: #f9f9f9; color: #333; }
+        a { display: inline-block; margin: 0.5rem; padding: 0.7rem 1.5rem; background: #fff; border-radius: 20px; text-decoration: none; color: #333; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        a:hover { background: #eaeaea; }
     </style>
 </head>
 <body>
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">Senya Maki</div>
-            <ul class="nav-links" id="tabs-menu">
-                <!-- Tabs sẽ được tự động sinh ra -->
-            </ul>
-        </nav>
-    </header>
-
-    <main class="main">
-        <div id="tab-content">
-            <p id="loading">読み込み中...</p>
-        </div>
-    </main>
-
-    <footer class="footer">
-        <p>Senya Maki 公式サイト</p>
-        <p class="copyright">© 2026 Senya Maki</p>
-    </footer>
-
-    <script>
-        const REPO_OWNER = 'toanganit';   // ← THAY BẰNG USERNAME CỦA BẠN
-        const REPO_NAME = 'my-new-images';   // ← THAY BẰNG TÊN REPO
-        const ROOT_API = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/`;
-        const IMG_EXTENSIONS = ['jpg','jpeg','png','gif','webp'];
-
-        let currentTab = null;
-        let folders = [];
-
-        // Lấy danh sách thư mục (các folder trong repo)
-        async function fetchFolders() {
-            try {
-                const res = await fetch(ROOT_API);
-                if (!res.ok) throw new Error('API error');
-                const items = await res.json();
-                // Lọc ra các thư mục (type == 'dir') và bỏ qua các thư mục ẩn, .github, v.v.
-                folders = items.filter(item => item.type === 'dir' && !item.name.startsWith('.'));
-                return folders;
-            } catch(e) {
-                console.error(e);
-                return [];
-            }
-        }
-
-        // Đọc file config.json từ một thư mục (nếu có)
-        async function getFolderConfig(folderName) {
-            try {
-                const configUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${folderName}/config.json`;
-                const res = await fetch(configUrl);
-                if (res.ok) {
-                    const config = await res.json();
-                    return config;
-                }
-            } catch(e) { /* ignore */ }
-            // Giá trị mặc định nếu không có config
-            return {
-                tabTitle: folderName,
-                description: '',
-                date: '',
-                credit: '📷 Senya Maki'
-            };
-        }
-
-        // Xây dựng menu tab
-        async function buildTabsMenu() {
-            const folders = await fetchFolders();
-            const menu = document.getElementById('tabs-menu');
-            menu.innerHTML = '';
-            // Thêm tab Home (hiển thị tất cả ảnh?)
-            // Tạm thời không có home, chỉ các folder
-            folders.forEach(folder => {
-                const li = document.createElement('li');
-                li.innerHTML = `<a class="tab-link" data-folder="${folder.name}">${folder.name}</a>`;
-                menu.appendChild(li);
-            });
-            // Gắn sự kiện click cho các tab
-            document.querySelectorAll('.tab-link').forEach(link => {
-                link.addEventListener('click', async function(e) {
-                    e.preventDefault();
-                    const folder = this.dataset.folder;
-                    // Đánh dấu active
-                    document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                    await loadTabContent(folder);
-                });
-            });
-            // Tự động click tab đầu tiên nếu có
-            if (folders.length > 0) {
-                const firstTab = document.querySelector('.tab-link');
-                if (firstTab) {
-                    firstTab.click();
-                }
-            } else {
-                document.getElementById('loading').innerText = 'まだコレクションがありません。';
-            }
-        }
-
-        // Load nội dung một tab: danh sách ảnh
-        async function loadTabContent(folder) {
-            const content = document.getElementById('tab-content');
-            content.innerHTML = '<p id="loading">読み込み中...</p>';
-            const config = await getFolderConfig(folder);
-            const folderApi = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${folder}`;
-            try {
-                const res = await fetch(folderApi);
-                if (!res.ok) throw new Error('Folder not found');
-                const files = await res.json();
-                const images = files.filter(f => IMG_EXTENSIONS.includes(f.name.split('.').pop().toLowerCase()));
-                // Tạo giao diện
-                let html = `<h2 class="section-title">📷 ${config.tabTitle}</h2>`;
-                if (images.length === 0) {
-                    html += '<p>まだ作品がありません。</p>';
-                } else {
-                    html += '<div class="gallery">';
-                    images.forEach(file => {
-                        const raw = file.download_url;
-                        const title = file.name.replace(/\.[^/.]+$/, '');
-                        html += `
-                            <div class="gallery-item">
-                                <img src="${raw}" alt="${title}" loading="lazy">
-                                <div class="info">
-                                    <h3>${title}</h3>
-                                    ${config.description ? `<p class="desc">${config.description}</p>` : ''}
-                                    ${config.date ? `<p class="date">${config.credit}<br>${config.date}</p>` : ''}
-                                    <a href="${raw}" target="_blank">オリジナル画像を表示</a>
-                                </div>
-                            </div>`;
-                    });
-                    html += '</div>';
-                }
-                content.innerHTML = html;
-            } catch(e) {
-                content.innerHTML = '<p>画像を読み込めませんでした。</p>';
-            }
-        }
-
-        // Khởi động
-        buildTabsMenu();
-    </script>
+    <h1>Senya Maki</h1>
+    <p>オリジナル作品集</p>
+    <nav>
+        <a href="./tab1/">Tab 1</a>
+        <a href="./tab2/">Tab 2</a>
+        <!-- Khi thêm tab mới, bạn thêm link vào đây -->
+    </nav>
+    <p style="margin-top:2rem; font-size:0.8rem;">© 2026 Senya Maki</p>
 </body>
 </html>
