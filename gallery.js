@@ -7,8 +7,8 @@
         return;
     }
 
-    const REPO_OWNER = 'YOUR_USERNAME';  // ← THAY BẰNG USERNAME CỦA BẠN
-    const REPO_NAME = 'YOUR_REPO_NAME';  // ← THAY BẰNG TÊN REPO
+    const REPO_OWNER = 'toanganit';  // ← THAY BẰNG USERNAME CỦA BẠN
+    const REPO_NAME = 'my-new-images';  // ← THAY BẰNG TÊN REPO
     const GITHUB_API = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FOLDER}`;
     const CONFIG_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${FOLDER}/config.json`;
     const IMG_EXTENSIONS = ['jpg','jpeg','png','gif','webp'];
