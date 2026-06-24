@@ -1,7 +1,7 @@
 // menu.js - Tự động tạo menu từ các thư mục có config.json
 (async function buildMenu() {
-    const REPO_OWNER = 'YOUR_USERNAME';   // ← SỬA
-    const REPO_NAME = 'YOUR_REPO_NAME';   // ← SỬA
+    const REPO_OWNER = 'toanganit';   // ← SỬA
+    const REPO_NAME = 'my-new-images';   // ← SỬA
     const ROOT_API = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/`;
 
     // Lấy danh sách thư mục
