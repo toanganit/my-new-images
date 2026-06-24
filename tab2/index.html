@@ -1,11 +1,9 @@
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Senya Maki | Tab 1</title>
+    <title>Senya Maki</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,10 +12,7 @@
         .header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
         .nav { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; }
         .logo { font-size: 1.5rem; font-weight: 500; }
-        .nav-links { list-style: none; display: flex; gap: 2rem; }
-        .nav-links li a { font-size: 0.9rem; }
         .main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
-        .breadcrumb { font-size: 0.8rem; color: #999; margin-bottom: 1.5rem; }
         .section-title { font-size: 1.6rem; font-weight: 500; margin-bottom: 1.5rem; border-bottom: 2px solid #eaeaea; padding-bottom: 0.5rem; }
         .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
         .gallery-item { background: #fff; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); overflow: hidden; }
@@ -28,6 +23,8 @@
         .gallery-item .info .date { font-size: 0.8rem; color: #888; margin-bottom: 0.5rem; }
         .gallery-item a { display: inline-block; color: #0066c0; font-size: 0.8rem; }
         .footer { background: #fff; border-top: 1px solid #e0e0e0; text-align: center; padding: 2rem 1.5rem; margin-top: 3rem; font-size: 0.8rem; color: #999; }
+        .nav-links { list-style: none; display: flex; gap: 1.5rem; }
+        .nav-links li a { font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -36,75 +33,21 @@
             <div class="logo">Senya Maki</div>
             <ul class="nav-links">
                 <li><a href="../">ホーム</a></li>
-                <li><a href="./">Tab 1</a></li>
+                <li><a href="../tab1/">Tab 1</a></li>
                 <li><a href="../tab2/">Tab 2</a></li>
-                <li><a href="#">プロフィール</a></li>
+                <!-- Thêm các tab khác nếu muốn, hoặc có thể bỏ qua vì đã có trang chủ liệt kê -->
             </ul>
         </nav>
     </header>
     <main class="main">
-        <div class="breadcrumb"><a href="../">ホーム</a> &gt; <strong>Tab 1</strong></div>
-        <h2 class="section-title" id="tab-title">Tab 1</h2>
+        <h2 class="section-title" id="tab-title">📷 Tab</h2>
         <div class="gallery" id="gallery-container"><p>読み込み中...</p></div>
     </main>
     <footer class="footer"><p>Senya Maki 公式サイト</p><p class="copyright">© 2026 Senya Maki</p></footer>
-    <script>
-        const FOLDER = 'tab2';
-        const REPO_OWNER = 'toanganit';  // THAY
-        const REPO_NAME = 'my-new-images';  // THAY
-        const GITHUB_API = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FOLDER}`;
-        const CONFIG_URL = './config.json';   // Đọc file config cùng thư mục
-        const IMG_EXTENSIONS = ['jpg','jpeg','png','gif','webp'];
 
-        async function loadConfig() {
-            try {
-                const res = await fetch(CONFIG_URL);
-                if (!res.ok) throw new Error('Config not found');
-                return await res.json();
-            } catch(e) {
-                // Giá trị mặc định nếu không có config
-                return {
-                    tabTitle: 'Tab 1',
-                    description: 'My Cosplay Collection',
-                    date: '2026.04.04',
-                    credit: '📷 Senya Maki'
-                };
-            }
-        }
-
-        (async function() {
-            const config = await loadConfig();
-            // Cập nhật tiêu đề tab trên giao diện
-            document.getElementById('tab-title').textContent = `📷 ${config.tabTitle}`;
-            document.title = `Senya Maki | ${config.tabTitle}`;
-
-            try {
-                const res = await fetch(GITHUB_API);
-                if (!res.ok) throw new Error('API error');
-                const files = await res.json();
-                const images = files.filter(f => IMG_EXTENSIONS.includes(f.name.split('.').pop().toLowerCase()));
-                const container = document.getElementById('gallery-container');
-                container.innerHTML = images.length ? '' : '<p>まだ作品がありません。</p>';
-
-                images.forEach(file => {
-                    const raw = file.download_url;
-                    const title = file.name.replace(/\.[^/.]+$/, '');
-                    const div = document.createElement('div');
-                    div.className = 'gallery-item';
-                    div.innerHTML = `
-                        <img src="${raw}" alt="${title}" loading="lazy">
-                        <div class="info">
-                            <h3>${title}</h3>
-                            <p class="desc">${config.description}</p>
-                            <p class="date">${config.credit}<br>${config.date}</p>
-                            <a href="${raw}" target="_blank">オリジナル画像を表示</a>
-                        </div>`;
-                    container.appendChild(div);
-                });
-            } catch(e) {
-                document.getElementById('gallery-container').innerHTML = '<p>画像を読み込めませんでした。</p>';
-            }
-        })();
-    </script>
+    <!-- Khai báo tên thư mục cho gallery.js -->
+    <script>var TAB_FOLDER = 'tab2';</script>
+    <!-- Nhúng script chung -->
+    <script src="../gallery.js"></script>
 </body>
 </html>
